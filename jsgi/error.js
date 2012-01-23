@@ -52,12 +52,8 @@ exports.ErrorHandler = function(nextApp){
 				else if(e.code == 3){
 					status = 412;
 				}
-			}else if(e instanceof TypeError){
-				status = 403;
-			}else if(e instanceof RangeError){
-				status = 416;
-			}else if(e instanceof URIError){
-				status = 400;
+			}else if(e.name.substring(0, e.name.length - 5) in errorMap){
+				status = errorMap[e.name.substring(0, e.name.length - 5)];
 			}else if(e.status){
 				status = e.status;
 			}
@@ -72,4 +68,46 @@ exports.ErrorHandler = function(nextApp){
 
 		}
 	};
+};
+var errorMap = {
+	"Type": 403,
+	"Range": 416,
+	"URI": 400,
+	"Meh": 701, // following the standard HTTP status codes at https://github.com/joho/7XX-rfc
+	"Unpossible": 720,
+	"KnownUnknowns": 721,
+	"UnknownUnknowns": 722,
+	"Tricky": 723,
+	"ThisLineShouldBeUnreachable": 724,
+	"ItWorksOnMyMachine": 725,
+	"ItsAFeatureNotABug": 726,
+	"Compiling": 741,
+	"AKittenDies": 742,
+	"IThoughtIKnewRegularExpressions": 743,
+	"YUNOWriteIntegrationTests": 744,
+	"IDontAlwaysTestMyCodeButWhenIDoIDoItInProduction": 745,
+	"MissedBallmerPeak": 746,
+	"ConfoundedByPonies": 748,
+	"ReservedForChuckNorris": 749,
+	"SyntaxError":703,
+	"Hungover": 761,
+	"Stoned": 762,
+	"OverCaffeinated": 763,
+	"UnderCaffeinated": 764,
+	"JSConf": 765,
+	"Sober": 766,
+	"Drunk": 767,
+	"CachedForTooLong": 771,
+	"NotCachedLongEnough": 772,
+	"NotCachedAtAll": 773,
+	"WhyWasThisCached?": 774,
+	"ErrorOnTheException": 776,
+	"Coincidence": 777,
+	"OffByOneError": 778,
+	"OffByTooManyToCountError": 779,
+	"SomebodyElsesProblemOperations": 781,
+	"SomebodyElsesProblemQA": 782,
+	"SomebodyElsesProblemItWasACustomerRequestHonestly": 783,
+	"SomebodyElsesProblemManagementObviously": 784,
+	"TPSCoverSheetNotAttached": 785
 };
