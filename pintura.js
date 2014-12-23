@@ -34,7 +34,7 @@ var config = exports.config = {
 };
 exports.configure = function(newConfig){
 	// copy new configuration options into the config object
-	deepCopy(newConfig, config);
+	deepCopy(newConfig, config, true);
 }
 exports.getDataModel = function(request){
 	// this is a simple default model

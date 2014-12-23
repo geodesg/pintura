@@ -165,7 +165,7 @@ We can define group membership on the security object as well. The security obje
 has several methods that are used to compute the groups for a user, and which models
 to expose based on these groups.
 
-The simplest way to define access to models is to define the groups for users on the
+The simplest way to define access to models is to define the groups (access control lists) for users on the
 security object's `groupsUsers`. We can do this be assigning groups to `groupsUsers`
 object by properties with the group name and a value of an array of the included users:
 
@@ -184,10 +184,11 @@ object by properties with the group name and a value of an array of the included
 	});
 
 We could then register our data models with group information associated with it. We
-use the registerModels function to accomplish this. This can defined with an object where
+use the `registerModels` function to accomplish this. The data models are defined by passing
+in a data model definition object(s). This is an object where
 properties define the model by name, where each property value can be a model, a model
-with the groups allowed, or an array of models with groups. This is best illustrated
-by an example:
+with the groups allowed, or an array of models with groups (where the first set with
+a matching group). This is best illustrated by an example:
 
 	pintura.registerModels({
 		// The User model is exposed (though /User/), regardless of which user/group
@@ -204,8 +205,13 @@ by an example:
 				model: PublicProduct,
 				groups: ['user', 'public']
 			}
-		],
-	}, {
+		]
+	});
+
+Alternately, you define an object that has a list of groups and a `models` object that defines
+the models for the provided list of groups. For example:
+
+	pintura.registerModels({
 		// define a set of models to be exposed for the admin groups
 		groups: ['admin'],
 		models: {
@@ -215,6 +221,8 @@ by an example:
 		}
 	});
 
+The `registerModels` function can take multiple arguments, where each argument is a data
+model definition object (of either form).
 
 We could also potentially have a data model that is readonly for some users and 
 editable for others. In the example above, we had specified Product table

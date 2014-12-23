@@ -129,7 +129,8 @@ exports.DefaultSecurity = function(){
 			// at some point we may want to convert this to an array for faster access
 			for(var groupName in groupsUsers){
 				var users = groupsUsers[groupName];
-				if(users.indexOf(user) > - 1 || users.indexOf('*') > - 1){
+				console.log("group", groupName, users);
+				if(users.indexOf(user) > - 1 || (users.indexOf('*') > - 1) && user != null){
 					// the user is in this group
 					groupsForUser.push(groupName);
 				}
