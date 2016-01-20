@@ -3,21 +3,18 @@
 */
 
 var Media = require("../media").Media,
-	filesystem = require("perstore/store/filesystem").FileSystem({dataFolder: "../templates", defaultExtension: "template"}),
 	transform = require("../html-transform"),
 	Response=require("../jsgi/response").Response,
-	resolver = require("templify/lib/templify").Resolver,
 	toJSON = require("perstore/util/json-ext").stringify,
 	when = require("promised-io/promise").when,
 	copy = require("perstore/util/copy").copy;
-var templateEngine =  require('templify/lib/templify').TemplateEngine({resolver: resolver, store: filesystem});
 
 var defaultHandler = {
 	mediaType:"text/html",
 	defaultQuality: .1,
 	getQuality: function(object){
 	
-			var contentType = object.getMetadata? object.getMetadata()['content-type'] : object['content-type'];
+		var contentType = object.getMetadata? object.getMetadata()['content-type'] : object['content-type'];
 
 		if (contentType) {
 
@@ -52,11 +49,13 @@ var defaultHandler = {
 
 		//delete any existing content-length headers as the size has changed post conversion/templating
 		delete response.headers['content-length'];
-
+		if (!this.templateEngine) {
+			return object.content;
+		}
 		if (response.status > 400) {
-			template = templateEngine.compile("/error/"+response.status);	
+			template = this.templateEngine.compile("/error/"+response.status);	
 		}else{
-			template = templateEngine.compile(templateId, (mediaParams && mediaParams.template));
+			template = this.templateEngine.compile(templateId, (mediaParams && mediaParams.template));
 		}
 
 		return {

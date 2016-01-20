@@ -16,7 +16,6 @@
   ],
   "mappings": {
     "perstore": "http://github.com/kriszyp/perstore/zipball/v0.2.4",
-    "templify": "http://github.com/dmachi/templify/zipball/master",
     "promised-io": "jar:http://github.com/kriszyp/promised-io/zipball/v0.2.3!/",
     "patr": "jar:http://github.com/kriszyp/patr/zipball/v0.2.6!/",
     "tunguska": "http://github.com/kriszyp/tunguska/zipball/v0.2.4",
@@ -65,7 +64,6 @@
     "perstore": ">=0.3.0",
     "promised-io": ">=0.3.0",
     "rql": ">=0.3.1",
-    "templify": ">=0.9.0",
     "tunguska": ">=0.3.0",
     "ws": "^0.4.32"
   },
